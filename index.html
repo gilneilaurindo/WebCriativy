@@ -38,6 +38,19 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             overscroll-behavior-y: none;
+            /* Proteção contra seleção de texto global */
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Proteção Específica para Imagens (Não arrastar, não selecionar) */
+        img {
+            pointer-events: none; /* O clique passa através da imagem para o container pai (útil para o lightbox) */
+            -webkit-user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
 
         .text-gradient {
@@ -51,7 +64,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             transition: all 0.4s ease-out;
-            position: relative; /* Importante para overlays */
+            position: relative;
         }
 
         .premium-card:hover {
@@ -96,7 +109,6 @@
         .slide-prev-exit { transform: translateX(100px) scale(0.9) !important; opacity: 0 !important; filter: blur(10px) !important; }
         .slide-reset { transform: translateX(0) scale(1); opacity: 1 !important; filter: blur(0) !important; }
         
-        /* Badge Pulse Animation */
         @keyframes pulse-cyan {
             0% { box-shadow: 0 0 0 0 rgba(0, 229, 242, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(0, 229, 242, 0); }
@@ -105,9 +117,23 @@
         .animate-pulse-custom {
             animation: pulse-cyan 2s infinite;
         }
+        
+        /* Badge Exclusivo */
+        .exclusive-badge {
+            background: linear-gradient(90deg, #ff0055 0%, #ff5500 100%);
+            color: white;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+        }
     </style>
 </head>
-<body class="antialiased">
+<!-- oncontextmenu="return false" desativa o clique direito no corpo todo -->
+<body class="antialiased" oncontextmenu="return false;">
 
     <!-- Background Effects -->
     <div class="fixed inset-0 bg-grid pointer-events-none z-0"></div>
@@ -121,7 +147,6 @@
             <span class="text-lg font-bold tracking-tight text-white">WebCriativy</span>
         </div>
         <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
-            <!-- Nomes mais claros -->
             <a href="#investimento" class="text-white hover:text-cyan-400 transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/10">Ver Preços</a>
             <a href="#ativos" class="hover:text-cyan-400 transition-colors py-2">Exemplos Reais (Fotos)</a>
         </div>
@@ -134,7 +159,7 @@
     <section class="relative min-h-screen flex flex-col items-center justify-center px-4 text-center pt-20">
         <div data-aos="fade-up" data-aos-duration="1200" class="max-w-4xl mx-auto z-10">
             <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm">
-                <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-400">Proposta // Local Telecom</span>
+                <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-400">Confidencial // Local Telecom</span>
             </div>
             
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-medium leading-tight mb-8 tracking-tight text-white">
@@ -143,40 +168,37 @@
             </h1>
             
             <p class="max-w-2xl mx-auto text-gray-400 text-base md:text-lg mb-12 leading-relaxed">
-                Abaixo apresentamos soluções práticas de <strong>Marketing e Tecnologia</strong> para posicionar a Local Telecom como líder de mercado.
+                Abaixo apresentamos soluções práticas de <strong>Marketing e Tecnologia</strong> negociadas exclusivamente para a diretoria da Local Telecom.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
-                <!-- Botão 1: Exemplos Reais (Agora é o Destaque Principal) -->
-                <a href="#ativos" class="btn-strategy w-full sm:w-auto px-8 py-4 rounded-full text-xs uppercase tracking-widest shadow-lg flex items-center justify-center gap-2">
-                    Ver Exemplos Reais <i class="fas fa-images"></i>
+                <a href="#investimento" class="btn-strategy w-full sm:w-auto px-8 py-4 rounded-full text-xs uppercase tracking-widest shadow-lg flex items-center justify-center gap-2">
+                    Ver Planos e Preços <i class="fas fa-arrow-down"></i>
                 </a>
-                
-                <!-- Botão 2: Preços (Agora é o Secundário) -->
-                <a href="#investimento" class="text-gray-400 hover:text-white text-xs uppercase tracking-widest transition py-4 px-6 flex items-center gap-2 border border-transparent hover:border-white/10 rounded-full">
-                    Ver Planos e Preços <i class="fas fa-arrow-down text-[10px]"></i>
+                <a href="#ativos" class="text-gray-400 hover:text-white text-xs uppercase tracking-widest transition py-4 px-6 flex items-center gap-2 border border-transparent hover:border-white/10 rounded-full">
+                    Ver Exemplos Reais
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Investimento (AGORA PRIMEIRO) -->
+    <!-- Investimento (Primeiro) -->
     <section id="investimento" class="py-24 px-6 relative z-10 bg-white/[0.02]">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16" data-aos="fade-up">
                 <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-3 block">1. Planos e Preços</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Escolha o ideal para o seu momento</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Não sabe qual escolher? <a href="https://wa.me/5584921466248" class="text-cyan-400 underline decoration-cyan-400/30">Fale conosco no WhatsApp</a>.
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Investimento Exclusivo</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto border-l-2 border-red-500 pl-4 bg-red-500/5 py-2 text-sm">
+                    <strong>Atenção:</strong> Os valores abaixo incluem desconto corporativo aplicado exclusivamente para o CNPJ da <strong>Local Telecom</strong>. Proposta válida por 15 dias.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                 
                 <!-- PLANO 1 -->
-                <div class="premium-card p-8 rounded-3xl flex flex-col border-t-4 border-t-gray-700" data-aos="fade-up">
+                <div class="premium-card p-8 rounded-3xl flex flex-col border-t-4 border-t-gray-700 opacity-80 hover:opacity-100 transition-opacity" data-aos="fade-up">
                     <div class="bg-gray-800/50 text-gray-300 text-[10px] font-bold uppercase py-1 px-3 rounded-full self-start mb-6">
-                        Ideal para manter redes ativas
+                        Manutenção Básica
                     </div>
                     
                     <div class="mb-auto">
@@ -200,8 +222,11 @@
 
                 <!-- PLANO 2 (DESTAQUE) -->
                 <div class="premium-card p-8 rounded-3xl flex flex-col relative bg-[#0f0f13] border-t-4 border-t-cyan-400 shadow-[0_0_30px_rgba(0,0,0,0.5)] transform md:-translate-y-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="bg-cyan-400 text-black text-[10px] font-bold uppercase py-1 px-3 rounded-full self-start mb-6 shadow-lg shadow-cyan-400/20">
-                        Ideal para automatizar vendas
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="bg-cyan-400 text-black text-[10px] font-bold uppercase py-1 px-3 rounded-full shadow-lg shadow-cyan-400/20">
+                            Automação
+                        </div>
+                        <span class="exclusive-badge">Exclusivo Local</span>
                     </div>
                     
                     <div class="mb-auto">
@@ -220,7 +245,7 @@
                             <li class="flex items-start gap-3"><i class="fas fa-server text-gray-500 mt-1"></i> <span class="text-gray-400">Hospedagem inclusa (1 ano)</span></li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5584921466248?text=Ol%C3%A1%2C+quero+aproveitar+a+oferta+do+Ecossistema+Site+por+1200+reais+anuais."
+                    <a href="https://wa.me/5584921466248?text=Ol%C3%A1%2C+quero+aproveitar+a+oferta+exclusiva+do+Ecossistema+Site+por+1200+reais+anuais."
                        target="_blank"
                        class="btn-strategy w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest text-center shadow-lg shadow-cyan-400/20">
                         Garantir Oferta do Site
@@ -231,9 +256,9 @@
                 <div class="premium-card p-8 rounded-3xl flex flex-col border-t-4 border-t-purple-500" data-aos="fade-up" data-aos-delay="200">
                     <div class="flex justify-between items-center w-full mb-6">
                         <div class="bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase py-1 px-3 rounded-full">
-                            Ideal para crescer rápido
+                            Crescimento
                         </div>
-                        <span class="text-[10px] font-bold bg-red-500/20 text-red-400 px-2 py-1 rounded">OFERTA</span>
+                        <span class="exclusive-badge">Exclusivo Local</span>
                     </div>
                     
                     <div class="mb-auto">
@@ -244,6 +269,7 @@
                                 <span class="text-4xl font-bold text-white">R$ 1.600</span>
                                 <span class="text-xs text-gray-500">/mês</span>
                             </div>
+                            <span class="text-[9px] text-red-400 mt-1 font-bold uppercase tracking-wide">*Valor exclusivo para fechamento este mês</span>
                         </div>
                         <ul class="space-y-4 text-sm text-gray-300 mb-8">
                             <li class="flex items-start gap-3"><i class="fas fa-check text-purple-400 mt-1"></i> <strong>Gestão de Tráfego Pago</strong></li>
@@ -252,10 +278,10 @@
                             <li class="flex items-start gap-3"><i class="fas fa-chart-line text-cyan-400 mt-1"></i> Relatórios de Performance</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5584921466248?text=Ol%C3%A1%2C+tenho+interesse+na+oferta+da+consultoria+Elite+por+1600."
+                    <a href="https://wa.me/5584921466248?text=Ol%C3%A1%2C+tenho+interesse+na+oferta+EXCLUSIVA+da+consultoria+Elite+por+1600+para+a+Local+Telecom."
                        target="_blank"
                        class="w-full py-4 rounded-xl border border-white/20 text-xs font-bold uppercase tracking-widest hover:bg-white text-center hover:text-black transition-all">
-                        Aproveitar Oferta
+                        Aproveitar Condição
                     </a>
                 </div>
 
@@ -263,62 +289,52 @@
         </div>
     </section>
 
-    <!-- Entrega Técnica (Portfólio - AGORA DEPOIS) -->
+    <!-- Entrega Técnica (Portfólio) -->
     <section id="ativos" class="py-24 md:py-32 px-6 max-w-6xl mx-auto relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div data-aos="fade-right">
                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">2. Identidade Visual</h2>
                 <p class="text-gray-400 mb-8 text-lg leading-relaxed">
-                    Confira a qualidade do que entregamos. Nossa equipe preparou modelos exclusivos para garantir que a Local Telecom transmita modernidade e confiança desde o primeiro dia.
+                    Confira a qualidade do que entregamos. Nossa equipe preparou modelos exclusivos para garantir que a Local Telecom transmita modernidade e confiança.
                 </p>
                 
                 <div class="bg-blue-500/5 border border-blue-500/10 p-6 rounded-2xl mb-6">
-                    <h3 class="text-cyan-400 font-bold text-sm uppercase mb-2"><i class="fas fa-info-circle mr-2"></i>Como Funciona?</h3>
-                    <p class="text-gray-400 text-sm">Ao lado você vê exemplos reais. <strong>Clique nos cards</strong> para expandir a galeria ou visitar o site de demonstração.</p>
+                    <h3 class="text-cyan-400 font-bold text-sm uppercase mb-2"><i class="fas fa-lock mr-2"></i>Área Segura</h3>
+                    <p class="text-gray-400 text-sm">Estas artes são propriedade intelectual protegida. O download está desabilitado para proteção da estratégia.</p>
                 </div>
             </div>
 
             <div class="relative" data-aos="fade-left">
                 <div class="grid grid-cols-2 gap-4">
                     
-                    <!-- Card Interativo Social Media Kit (Com botão explícito) -->
+                    <!-- Card Interativo Social Media Kit -->
                     <div onclick="openGallery()" class="premium-card aspect-[4/5] rounded-2xl p-0 flex flex-col justify-end translate-y-8 cursor-pointer group relative overflow-hidden ring-1 ring-white/10 hover:ring-cyan-400/50">
                         <img src="https://raw.githubusercontent.com/gilneilaurindo/WebCriativy/main/imagens/01%20copiar.png" alt="Social Kit BG" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
-                        
-                        <!-- Overlay fixo para clareza -->
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-
                         <div class="relative z-10 p-6">
                             <div class="h-1 w-12 bg-cyan-400 mb-3 shadow-[0_0_10px_#00e5f2]"></div>
                             <span class="text-xs font-bold uppercase tracking-wider text-white block mb-1">Redes Sociais</span>
                             <span class="text-[10px] text-gray-400 block mb-4">Galeria com 8 Modelos</span>
-                            
-                            <!-- Botão Simulado -->
                             <div class="bg-cyan-400 text-black text-[10px] font-bold uppercase py-2 px-3 rounded text-center animate-pulse-custom">
-                                <i class="fas fa-images mr-2"></i>Clique para Ver
+                                <i class="fas fa-images mr-2"></i>Clique aqui para conferir
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card Landing Page (Com botão explícito) -->
+                    <!-- Card Landing Page -->
                     <a href="https://local-telecom.vercel.app/" target="_blank" class="premium-card aspect-[4/5] rounded-2xl p-0 flex flex-col justify-end border-cyan-400/20 hover:border-cyan-400/60 transition-all cursor-pointer group relative overflow-hidden ring-1 ring-white/5">
                         <img src="https://raw.githubusercontent.com/gilneilaurindo/WebCriativy/main/imagens/06.png" alt="Landing Page BG" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700">
-                        
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                        
                         <div class="relative z-10 p-6 h-full flex flex-col justify-end">
                             <div class="mb-auto mt-2 self-end">
                                 <div class="w-8 h-8 rounded-full bg-cyan-400/20 flex items-center justify-center border border-cyan-400/50">
                                     <i class="fas fa-external-link-alt text-cyan-400 text-xs"></i>
                                 </div>
                             </div>
-
                             <span class="text-xs font-bold uppercase tracking-wider text-white block mb-1">Site Institucional</span>
                             <span class="text-[10px] text-gray-400 block mb-4">Página de Vendas</span>
-                            
-                            <!-- Botão Simulado -->
                             <div class="bg-white/10 border border-white/20 text-white text-[10px] font-bold uppercase py-2 px-3 rounded text-center group-hover:bg-cyan-400 group-hover:text-black group-hover:border-cyan-400 transition-colors">
-                                <i class="fas fa-globe mr-2"></i>Acessar Site
+                                <i class="fas fa-globe mr-2"></i>Clique aqui para conferir
                             </div>
                         </div>
                     </a>
@@ -327,23 +343,21 @@
         </div>
     </section>
 
-    <!-- Footer Simplificado -->
+    <!-- Footer -->
     <footer class="py-20 px-6 text-center border-t border-white/5 bg-[#050507]">
         <div data-aos="fade-up">
             <h2 class="text-3xl font-light mb-8 text-white">Ficou com alguma dúvida?</h2>
-            
             <a href="https://wa.me/5584921466248?text=Ol%C3%A1%2C+vim+pelo+link+da+proposta+e+quero+tirar+d%C3%BAvidas." 
                class="inline-flex items-center gap-3 text-cyan-400 hover:text-white transition-colors text-sm uppercase tracking-widest font-bold bg-white/5 px-8 py-4 rounded-full border border-white/10 hover:bg-cyan-400 hover:text-black hover:border-cyan-400">
                 Chamar no WhatsApp <i class="fab fa-whatsapp text-lg"></i>
             </a>
-            
             <div class="mt-20 opacity-20 text-[10px] font-bold uppercase tracking-[0.5em]">
                 WebCriativy Studio © 2026
             </div>
         </div>
     </footer>
 
-    <!-- GALERIA MODAL (MANTIDA IGUAL, APENAS REINCLUÍDA) -->
+    <!-- GALERIA MODAL -->
     <div id="gallery-modal" class="fixed inset-0 z-[60] bg-[#050507]/95 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300 overflow-y-auto">
         <div class="sticky top-0 z-10 flex justify-between items-center p-6 md:px-12 bg-[#050507]/50 backdrop-blur-md border-b border-white/5">
             <div>
@@ -356,7 +370,6 @@
         </div>
         <div class="p-6 md:p-12 max-w-7xl mx-auto">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="gallery-grid">
-                <!-- Itens da Galeria -->
                 <div onclick="openLightbox(this)" class="group cursor-pointer aspect-square rounded-xl overflow-hidden border border-white/5 hover:border-cyan-400/50 relative opacity-0" style="animation-delay: 0.1s">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/WebCriativy/main/imagens/01%20copiar.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Institucional">
                 </div>
@@ -502,6 +515,15 @@
                 if (event.key === "ArrowLeft") prevImage();
             }
         });
+        
+        // Bloqueio extra via JS para garantir
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) { return false; } // F12
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+        };
     </script>
 </body>
 </html>
